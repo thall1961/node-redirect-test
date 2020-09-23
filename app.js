@@ -19,19 +19,30 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(function (req, res, next) {
+    if (req.get('X-Forwarded-Proto') !== 'https') {
+        res.redirect('https://' + req.get('Host') + req.url);
+    } else next();
+});
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
-// app.use(function (req, res, next) {
-//     if (req.secure) {
-//         // request was via https, so do no special handling
-//         next();
-//     } else {
-//         // request was via http, so redirect to https
-//         res.redirect(301, 'https://' + req.headers.host + req.url);
-//     }
-// });
-
+app.use(function (req, res, next) {
+    if (req.get('X-Forwarded-Proto') !== 'https') {
+        res.redirect('https://' + req.get('Host') + req.url);
+    } else next();
+});
+app.use(function (req, res, next) {
+    if (req.get('X-Forwarded-Proto') !== 'https') {
+        res.redirect('https://' + req.get('Host') + req.url);
+    } else next();
+});
+app.use(function (req, res, next) {
+    if (req.get('X-Forwarded-Proto') !== 'https') {
+        res.redirect('https://' + req.get('Host') + req.url);
+    } else next();
+});
 app.use(function (req, res, next) {
     if (req.get('X-Forwarded-Proto') !== 'https') {
         res.redirect('https://' + req.get('Host') + req.url);
